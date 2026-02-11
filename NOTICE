@@ -1,0 +1,9 @@
+This project is distributed under the Apache License, Version 2.0.
+
+Fork modification notice:
+- This repository includes modifications by Obegron contributors.
+- Modified files in this fork carry prominent notices that they were changed.
+- Upstream attribution/copyright notices from the original project are retained.
+
+Upstream project:
+- https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner

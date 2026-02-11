@@ -1,5 +1,7 @@
 # NFS Subdirectory External Provisioner Helm Chart
 
+> Modified in Obegron fork; see git history for details.
+
 The [NFS subdir external provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) is an automatic provisioner for Kubernetes that uses your *already configured* NFS server, automatically creating Persistent Volumes.
 
 ## TL;DR;
