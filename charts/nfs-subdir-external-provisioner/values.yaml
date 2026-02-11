@@ -3,7 +3,7 @@ strategyType: Recreate
 
 image:
   repository: obegron/nfs-subdir-external-provisioner
-  tag: v5.0.0-fork.1
+  tag: v5.0.1-fork.1
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 

@@ -1,3 +1,8 @@
+# v5.0.1-fork.1
+
+- Improve startup configuration error handling with concise operator-facing messages (no runtime crash dump for expected config errors)
+- Fix Helm chart RBAC for leader election by adding `coordination.k8s.io/leases` permissions
+
 # v5.0.0-fork.1
 
 - Fork release: upgrade to `sigs.k8s.io/sig-storage-lib-external-provisioner/v13`

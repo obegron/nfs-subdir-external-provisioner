@@ -2,7 +2,7 @@
 
 **NFS subdir external provisioner** is an automatic provisioner that use your _existing and already configured_ NFS server to support dynamic provisioning of Kubernetes Persistent Volumes via Persistent Volume Claims. Persistent volumes are provisioned as `${namespace}-${pvcName}-${pvName}`.
 
-**Fork note:** This fork maintains a newer dependency/toolchain set (including `sigs.k8s.io/sig-storage-lib-external-provisioner/v13`) and publishes forked tags like `v5.0.0-fork.1`. It may require updated RBAC/cluster versions compared to upstream.
+**Fork note:** This fork maintains a newer dependency/toolchain set (including `sigs.k8s.io/sig-storage-lib-external-provisioner/v13`) and publishes forked tags like `v5.0.1-fork.1`. It may require updated RBAC/cluster versions compared to upstream.
 
 Note: This repository is migrated from https://github.com/kubernetes-incubator/external-storage/tree/master/nfs-client. As part of the migration:
 - The container image name and repository has changed to `registry.k8s.io/sig-storage` and `nfs-subdir-external-provisioner` respectively.
@@ -210,7 +210,7 @@ spec:
       serviceAccountName: nfs-client-provisioner
       containers:
         - name: nfs-client-provisioner
-          image: obegron/nfs-subdir-external-provisioner:v5.0.0-fork.1
+          image: obegron/nfs-subdir-external-provisioner:v5.0.1-fork.1
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes

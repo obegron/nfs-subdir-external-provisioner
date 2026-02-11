@@ -205,21 +205,26 @@ func (p *nfsProvisioner) getClassForVolume(ctx context.Context, pv *v1.Persisten
 	return class, nil
 }
 
+func failStartup(format string, args ...interface{}) {
+	fmt.Fprintf(os.Stderr, "ERROR: "+format+"\n", args...)
+	os.Exit(1)
+}
+
 func main() {
 	flag.Parse()
 	flag.Set("logtostderr", "true")
 
 	server := os.Getenv("NFS_SERVER")
 	if server == "" {
-		glog.Fatal("NFS_SERVER not set")
+		failStartup("required environment variable NFS_SERVER is not set")
 	}
 	path := os.Getenv("NFS_PATH")
 	if path == "" {
-		glog.Fatal("NFS_PATH not set")
+		failStartup("required environment variable NFS_PATH is not set")
 	}
 	provisionerName := os.Getenv(provisionerNameKey)
 	if provisionerName == "" {
-		glog.Fatalf("environment variable %s is not set! Please set it.", provisionerNameKey)
+		failStartup("required environment variable %s is not set", provisionerNameKey)
 	}
 	kubeconfig := os.Getenv("KUBECONFIG")
 	var config *rest.Config
@@ -229,7 +234,7 @@ func main() {
 		var err error
 		config, err = clientcmd.BuildConfigFromFlags("", kubeconfig)
 		if err != nil {
-			glog.Fatalf("Failed to create kubeconfig: %v", err)
+			failStartup("failed to create kubeconfig from KUBECONFIG=%q: %v", kubeconfig, err)
 		}
 	} else {
 		// Create an InClusterConfig and use it to create a client for the controller
@@ -237,12 +242,12 @@ func main() {
 		var err error
 		config, err = rest.InClusterConfig()
 		if err != nil {
-			glog.Fatalf("Failed to create config: %v", err)
+			failStartup("failed to create in-cluster config: %v", err)
 		}
 	}
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		glog.Fatalf("Failed to create client: %v", err)
+		failStartup("failed to create Kubernetes client: %v", err)
 	}
 
 	leaderElection := true
@@ -250,7 +255,7 @@ func main() {
 	if leaderElectionEnv != "" {
 		leaderElection, err = strconv.ParseBool(leaderElectionEnv)
 		if err != nil {
-			glog.Fatalf("Unable to parse ENABLE_LEADER_ELECTION env var: %v", err)
+			failStartup("unable to parse ENABLE_LEADER_ELECTION=%q as boolean: %v", leaderElectionEnv, err)
 		}
 	}
 
