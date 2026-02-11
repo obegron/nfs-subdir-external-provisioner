@@ -52,7 +52,7 @@ The following tables lists the configurable parameters of this chart and their d
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | `replicaCount`                       | Number of provisioner instances to deployed                                                           | `1`                                                           |
 | `strategyType`                       | Specifies the strategy used to replace old Pods by new ones                                           | `Recreate`                                                    |
-| `image.repository`                   | Provisioner image                                                                                     | `registry.k8s.io/sig-storage/nfs-subdir-external-provisioner` |
+| `image.repository`                   | Provisioner image                                                                                     | `obegron/nfs-subdir-external-provisioner`                      |
 | `image.tag`                          | Version of provisioner image                                                                          | `v5.0.0-fork.1`                                               |
 | `image.pullPolicy`                   | Image pull policy                                                                                     | `IfNotPresent`                                                |
 | `imagePullSecrets`                   | Image pull secrets                                                                                    | `[]`                                                          |

@@ -210,7 +210,7 @@ spec:
       serviceAccountName: nfs-client-provisioner
       containers:
         - name: nfs-client-provisioner
-          image: registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v5.0.0-fork.1
+          image: obegron/nfs-subdir-external-provisioner:v5.0.0-fork.1
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
