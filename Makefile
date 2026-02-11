@@ -15,7 +15,7 @@
 BIN := nfs-subdir-external-provisioner
 VERSION := $(shell grep '^appVersion:' charts/nfs-subdir-external-provisioner/Chart.yaml | awk '{print $$2}')
 IMAGE_NAME := obegron/nfs-subdir-external-provisioner
-DOCKERFILE := Dockerfile.scratch
+DOCKERFILE := Dockerfile
 
 .PHONY: build
 build:
