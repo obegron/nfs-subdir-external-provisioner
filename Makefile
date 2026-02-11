@@ -16,6 +16,7 @@ BIN := nfs-subdir-external-provisioner
 VERSION := $(shell grep '^appVersion:' charts/nfs-subdir-external-provisioner/Chart.yaml | awk '{print $$2}')
 IMAGE_NAME := obegron/nfs-subdir-external-provisioner
 DOCKERFILE := Dockerfile
+LOCAL_PLATFORM ?= linux/amd64
 
 .PHONY: build
 build:
@@ -31,7 +32,7 @@ docker-build:
 
 .PHONY: docker-build-local
 docker-build-local:
-	docker buildx build --platform linux/amd64,linux/arm64 --load -f $(DOCKERFILE) -t $(IMAGE_NAME):$(VERSION) -t $(IMAGE_NAME):latest .
+	docker buildx build --platform $(LOCAL_PLATFORM) --load -f $(DOCKERFILE) -t $(IMAGE_NAME):$(VERSION) -t $(IMAGE_NAME):latest .
 
 .PHONY: docker-push
 docker-push:
@@ -58,7 +59,7 @@ help:
 	@echo "  make build        - Build local binary (stripped)"
 	@echo "  make run          - Run locally"
 	@echo "  make docker-build - Build multi-arch Docker image"
-	@echo "  make docker-build-local - Build multi-arch image and load into Docker"
+	@echo "  make docker-build-local - Build local image and load into Docker"
 	@echo "  make docker-push  - Build and push to registry"
 	@echo "  make trivy-image  - Scan image with Trivy via Docker socket"
 	@echo "  make trivy-local  - Build locally and scan with Trivy"
