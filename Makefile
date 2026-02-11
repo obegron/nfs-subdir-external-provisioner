@@ -29,9 +29,20 @@ run:
 docker-build:
 	docker buildx build --platform linux/amd64,linux/arm64 -f $(DOCKERFILE) -t $(IMAGE_NAME):$(VERSION) -t $(IMAGE_NAME):latest .
 
+.PHONY: docker-build-local
+docker-build-local:
+	docker buildx build --platform linux/amd64,linux/arm64 --load -f $(DOCKERFILE) -t $(IMAGE_NAME):$(VERSION) -t $(IMAGE_NAME):latest .
+
 .PHONY: docker-push
 docker-push:
 	docker buildx build --platform linux/amd64,linux/arm64 --provenance=true --sbom=true -f $(DOCKERFILE) -t $(IMAGE_NAME):$(VERSION) -t $(IMAGE_NAME):latest . --push
+
+.PHONY: trivy-image
+trivy-image:
+	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image $(IMAGE_NAME):$(VERSION)
+
+.PHONY: trivy-local
+trivy-local: docker-build-local trivy-image
 
 .PHONY: show-version
 show-version:
@@ -47,6 +58,9 @@ help:
 	@echo "  make build        - Build local binary (stripped)"
 	@echo "  make run          - Run locally"
 	@echo "  make docker-build - Build multi-arch Docker image"
+	@echo "  make docker-build-local - Build multi-arch image and load into Docker"
 	@echo "  make docker-push  - Build and push to registry"
+	@echo "  make trivy-image  - Scan image with Trivy via Docker socket"
+	@echo "  make trivy-local  - Build locally and scan with Trivy"
 	@echo "  make show-version - Show current version"
 	@echo "  make clean        - Remove built binaries"
