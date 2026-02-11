@@ -41,6 +41,7 @@ import (
 
 const (
 	provisionerNameKey = "PROVISIONER_NAME"
+	repoDocsURL        = "https://github.com/obegron/nfs-subdir-external-provisioner#readme"
 )
 
 type nfsProvisioner struct {
@@ -210,22 +211,37 @@ func failStartup(format string, args ...interface{}) {
 	os.Exit(1)
 }
 
+func failStartupConfig(messages []string) {
+	fmt.Fprintln(os.Stderr, "ERROR: invalid startup configuration:")
+	for _, message := range messages {
+		fmt.Fprintf(os.Stderr, "- %s\n", message)
+	}
+	fmt.Fprintf(os.Stderr, "\nSee docs: %s\n", repoDocsURL)
+	os.Exit(1)
+}
+
 func main() {
 	flag.Parse()
 	flag.Set("logtostderr", "true")
 
 	server := os.Getenv("NFS_SERVER")
-	if server == "" {
-		failStartup("required environment variable NFS_SERVER is not set")
-	}
 	path := os.Getenv("NFS_PATH")
-	if path == "" {
-		failStartup("required environment variable NFS_PATH is not set")
-	}
 	provisionerName := os.Getenv(provisionerNameKey)
-	if provisionerName == "" {
-		failStartup("required environment variable %s is not set", provisionerNameKey)
+
+	var startupConfigErrors []string
+	if server == "" {
+		startupConfigErrors = append(startupConfigErrors, "required environment variable NFS_SERVER is not set")
 	}
+	if path == "" {
+		startupConfigErrors = append(startupConfigErrors, "required environment variable NFS_PATH is not set")
+	}
+	if provisionerName == "" {
+		startupConfigErrors = append(startupConfigErrors, fmt.Sprintf("required environment variable %s is not set", provisionerNameKey))
+	}
+	if len(startupConfigErrors) > 0 {
+		failStartupConfig(startupConfigErrors)
+	}
+
 	kubeconfig := os.Getenv("KUBECONFIG")
 	var config *rest.Config
 	if kubeconfig != "" {
