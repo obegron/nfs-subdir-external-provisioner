@@ -1,3 +1,10 @@
+# v5.0.0-fork.1
+
+- Fork release: upgrade to `sigs.k8s.io/sig-storage-lib-external-provisioner/v13`
+- Update Kubernetes libraries to v0.34.0 and Go toolchain to 1.26.0
+- Add `Dockerfile.scratch` for scratch builds with CA certs
+- Limit default build platforms to linux/amd64 and linux/arm64
+
 # v4.0.3
 
 - Prevent mounting of root directory on empty customPath (https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner/pull/83)
