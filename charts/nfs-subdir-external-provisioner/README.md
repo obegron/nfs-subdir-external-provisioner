@@ -5,10 +5,12 @@ The [NFS subdir external provisioner](https://github.com/kubernetes-sigs/nfs-sub
 ## TL;DR;
 
 ```console
-$ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-$ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+$ helm install nfs-provisioner ./charts/nfs-subdir-external-provisioner \
     --set nfs.server=x.x.x.x \
-    --set nfs.path=/exported/path
+    --set nfs.path=/exported/path \
+    --set nfs.mountOptions[0]=vers=4 \
+    --set image.repository=obegron/nfs-subdir-external-provisioner \
+    --set image.tag=v5.0.1-fork.1
 ```
 
 ## Introduction
@@ -25,7 +27,7 @@ This charts installs custom [storage class](https://kubernetes.io/docs/concepts/
 To install the chart with the release name `my-release`:
 
 ```console
-$ helm install my-release nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+$ helm install my-release ./charts/nfs-subdir-external-provisioner \
     --set nfs.server=x.x.x.x \
     --set nfs.path=/exported/path
 ```
@@ -93,7 +95,7 @@ The following tables lists the configurable parameters of this chart and their d
 It is possible to install more than one provisioner in your cluster to have access to multiple nfs servers and/or multiple exports from a single nfs server. Each provisioner must have a different `storageClass.provisionerName` and a different `storageClass.name`. For example:
 
 ```console
-helm install second-nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+helm install second-nfs-subdir-external-provisioner ./charts/nfs-subdir-external-provisioner \
     --set nfs.server=y.y.y.y \
     --set nfs.path=/other/exported/path \
     --set storageClass.name=second-nfs-client \

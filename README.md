@@ -20,10 +20,12 @@ Follow the instructions from the helm chart [README](charts/nfs-subdir-external-
 The tl;dr is
 
 ```console
-$ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-$ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+$ helm install nfs-provisioner ./charts/nfs-subdir-external-provisioner \
     --set nfs.server=x.x.x.x \
-    --set nfs.path=/exported/path
+    --set nfs.path=/exported/path \
+    --set nfs.mountOptions[0]=vers=4 \
+    --set image.repository=obegron/nfs-subdir-external-provisioner \
+    --set image.tag=v5.0.1-fork.1
 ```
 
 ### With Kustomize
