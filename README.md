@@ -2,6 +2,8 @@
 
 > Modified in Obegron fork; see git history for details.
 
+[![Security Scan](https://github.com/obegron/nfs-subdir-external-provisioner/actions/workflows/security-scan.yml/badge.svg)](https://github.com/obegron/nfs-subdir-external-provisioner/actions/workflows/security-scan.yml)
+
 **NFS subdir external provisioner** is an automatic provisioner that use your _existing and already configured_ NFS server to support dynamic provisioning of Kubernetes Persistent Volumes via Persistent Volume Claims. Persistent volumes are provisioned as `${namespace}-${pvcName}-${pvName}`.
 
 **Fork note:** This fork maintains a newer dependency/toolchain set (including `sigs.k8s.io/sig-storage-lib-external-provisioner/v13`) and publishes forked tags like `v5.0.1-fork.1`. It may require updated RBAC/cluster versions compared to upstream.
