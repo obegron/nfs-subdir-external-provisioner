@@ -253,6 +253,11 @@ func main() {
 			failStartup("failed to create kubeconfig from KUBECONFIG=%q: %v", kubeconfig, err)
 		}
 	} else {
+		k8sServiceHost := os.Getenv("KUBERNETES_SERVICE_HOST")
+		k8sServicePort := os.Getenv("KUBERNETES_SERVICE_PORT")
+		if k8sServiceHost == "" || k8sServicePort == "" {
+			failStartup("missing Kubernetes service environment (KUBERNETES_SERVICE_HOST/PORT). This binary is intended to run inside Kubernetes; for local runs set KUBECONFIG. See docs: %s", repoDocsURL)
+		}
 		// Create an InClusterConfig and use it to create a client for the controller
 		// to use to communicate with Kubernetes
 		var err error
