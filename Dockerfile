@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM --platform=$BUILDPLATFORM golang:1.26.0 AS build-env
+FROM --platform=$BUILDPLATFORM golang:1.26 AS build-env
 
 WORKDIR /src
 COPY . .
