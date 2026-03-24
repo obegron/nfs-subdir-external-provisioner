@@ -25,7 +25,7 @@ jobs:
         run: docker build -t test-image:latest .
 
       - name: Run Trivy SARIF scan
-        uses: aquasecurity/trivy-action@0.24.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: test-image:latest
           format: sarif
@@ -41,7 +41,7 @@ jobs:
 
       - name: Run Trivy full report
         if: always()
-        uses: aquasecurity/trivy-action@0.24.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: test-image:latest
           format: table
